@@ -82,7 +82,8 @@ def configure_logging(app):
 
 
 # Import forms
-from views.indexer import Index
+from views.search_by_party import SearchByParty
+from views.search_by_term import SearchByTerm
 
 
 def register_url_rules(app):
@@ -91,7 +92,12 @@ def register_url_rules(app):
     :param app: The Flask application instance.
     '''
 
-    # Index page form.
+    # Count the term mentioned by party.
     app.add_url_rule(
-        '/',
-        view_func=Index.as_view('indexer'))
+        '/term-mentioned-by-party/<string:keyword>',
+        view_func=SearchByParty.as_view('search_by_party'))
+
+    # Term counting use by dates.
+    app.add_url_rule(
+        '/term-mentioned-by-date/<string:keyword>',
+        view_func=SearchByTerm.as_view('search_by_term'))
